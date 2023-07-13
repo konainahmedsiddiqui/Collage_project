@@ -1,0 +1,31 @@
+from PIL import Image
+
+# Define the images you want to use in the collage
+image_paths = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg']
+
+# Open each image and store it in a list
+images = []
+for path in image_paths:
+    image = Image.open(path)
+    images.append(image)
+
+# Calculate the total width and height of the collage
+total_width = 0
+max_height = 0
+for image in images:
+    width, height = image.size
+    total_width += width
+    max_height = max(max_height, height)
+
+# Create a new blank image for the collage
+collage = Image.new('RGB', (total_width, max_height), (255, 255, 255))
+
+# Paste each image into the collage
+x_offset = 0
+for image in images:
+    width, height = image.size
+    collage.paste(image, (x_offset, 0))
+    x_offset += width
+
+# Save the collage
+collage.save('collage.jpg')
